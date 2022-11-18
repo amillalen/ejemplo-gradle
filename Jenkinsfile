@@ -2,6 +2,7 @@ pipeline {
     agent any
     tools {
         maven '3.8.6'
+        gradle '7.6-rc3'
     }
     stages {
         stage('build & test') {
