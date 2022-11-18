@@ -22,7 +22,7 @@ pipeline {
         stage('run') {
             steps {
                 echo 'run...'
-                sh "gradle bootRun &"            
+                sh "gradle bootRun"            
             }
         }
         stage('test api rest') {
