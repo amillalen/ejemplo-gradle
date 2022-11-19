@@ -26,6 +26,7 @@ pipeline {
             }
         }
         stage('wait serivice start') {
+           steps{
            timeout(5) {
              waitUntil {
                script {
@@ -33,6 +34,7 @@ pipeline {
                  return (r == 0);
                }
              }
+          }
           }
         }
         stage('test api rest') {
