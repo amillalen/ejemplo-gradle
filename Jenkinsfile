@@ -30,10 +30,7 @@ pipeline {
            timeout(5) {
              waitUntil {
                script {
-                 def r = sh script: "grep Started /tmp/mscovid.log", returnStdout: true
-                 echo r
-                 echo $r
-                 return (r != "");
+                 sh "grep Started /tmp/mscovid.log"
                }
              }
           }
