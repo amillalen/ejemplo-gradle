@@ -31,7 +31,7 @@ pipeline {
              waitUntil {
                script {
                  def r = sh script: "grep Started /tmp/mscovid.log", returnStdout: true
-                 return (r == 0);
+                 return (r != "");
                }
              }
           }
