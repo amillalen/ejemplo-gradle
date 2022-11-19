@@ -22,7 +22,7 @@ pipeline {
         stage('run') {
             steps {
                 echo 'run...'
-                sh "gradle bootRun &"            
+                sh "nohup gradle bootRun >> /tmp/mscovid.log 2>&1 &"            
             }
         }
         stage('wait serivice start') {
