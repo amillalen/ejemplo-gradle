@@ -14,8 +14,9 @@ pipeline {
         stage('sonar') {
             steps {
                 echo 'sonar...'
+                def scannerHome = tool 'local-sonar';
                 withSonarQubeEnv(credentialsId:'sonartoken',installationName:'local-sonar') {
-                   sh 'gradle sonarqube'
+                   sh "${scannerHome}/bin/sonnar-scanner"
                 }
             }
         }
@@ -51,7 +52,7 @@ pipeline {
                  nexusInstanceId: 'nexus01',
                  nexusRepositoryId: 'devops-usach-nexus',
                  packages: [[$class: 'MavenPackage',
-                       mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '0.0.22'],
+                       mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '0.0.1'],
                        mavenAssetList: [
                           [classifier: '', extension: 'jar', filePath: "${WORKSPACE}/build/libs/DevOpsUsach2020-0.0.1.jar"]
                        ] 
