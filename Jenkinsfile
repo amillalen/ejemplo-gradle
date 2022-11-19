@@ -15,7 +15,7 @@ pipeline {
             steps {
                 echo 'sonar...'
                 withSonarQubeEnv(credentialsId:'sonartoken',installationName:'local-sonar') {
-                   sh 'mvn sonar:sonar'
+                   sh 'gradle sonarqube'
                 }
             }
         }
