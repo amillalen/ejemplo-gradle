@@ -22,8 +22,18 @@ pipeline {
         stage('run') {
             steps {
                 echo 'run...'
-                sh "gradle bootRun"            
+                sh "gradle bootRun &"            
             }
+        }
+        stage('wait serivice start') {
+           timeout(5) {
+             waitUntil {
+               script {
+                 def r = sh script: "echo 'exit' | telnet localhost 8081", returnStdout: true
+                 return (r == 0);
+               }
+             }
+          }
         }
         stage('test api rest') {
            steps{
