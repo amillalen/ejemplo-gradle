@@ -3,6 +3,7 @@ pipeline {
     tools {
         maven '3.8.6'
         gradle '7.6-rc3'
+        
     }
     stages {
         stage('build & test') {
@@ -14,9 +15,11 @@ pipeline {
         stage('sonar') {
             steps {
                 echo 'sonar...'
+                script{
                 def scannerHome = tool 'local-sonar';
                 withSonarQubeEnv(credentialsId:'sonartoken',installationName:'local-sonar') {
                    sh "${scannerHome}/bin/sonnar-scanner"
+                }
                 }
             }
         }
