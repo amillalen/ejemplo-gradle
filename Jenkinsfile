@@ -30,7 +30,7 @@ pipeline {
            timeout(5) {
              waitUntil {
                script {
-                 def r = sh script: "echo 'exit' | telnet localhost 8081", returnStdout: true
+                 def r = sh script: "curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'", returnStdout: true
                  return (r == 0);
                }
              }
