@@ -30,7 +30,8 @@ pipeline {
            timeout(5) {
              waitUntil {
                script {
-                 sh "grep Started /tmp/mscovid.log"
+                 def exitCode = sh script:"grep -s Started /tmp/mscovid.log", returnStatus:true
+                 return (exitCode == 0);
                }
              }
           }
