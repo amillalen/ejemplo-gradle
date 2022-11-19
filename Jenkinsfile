@@ -22,7 +22,7 @@ pipeline {
         stage('run') {
             steps {
                 echo 'run...'
-                sh "nohup gradle bootRun >> /tmp/mscovid.log 2>&1 &"            
+                sh "nohup gradle bootRun > /tmp/mscovid.log 2>&1 &"            
             }
         }
         stage('wait serivice start') {
@@ -30,7 +30,7 @@ pipeline {
            timeout(5) {
              waitUntil {
                script {
-                 def r = sh script: "curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'", returnStdout: true
+                 def r = sh script: "grep Started /tmp/mscovid.log", returnStdout: true
                  return (r == 0);
                }
              }
