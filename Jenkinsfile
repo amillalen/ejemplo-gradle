@@ -15,8 +15,10 @@ pipeline {
               }
            }
         }
-        script {
-           build_tool["maven"].build_test()
+        stage {
+          script {
+            build_tool["maven"].build_test()
+          }
         }
 /*
         stage('build & test') {
