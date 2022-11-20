@@ -1,4 +1,4 @@
-def build_tool
+def build_tool = [:]
 pipeline {
     agent any
     tools {
