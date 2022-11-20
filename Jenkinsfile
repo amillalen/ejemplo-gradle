@@ -53,7 +53,12 @@ pipeline {
                 }
             }
         }
-
+        
+        stage("gradle run"){
+           steps{
+              build_tool.run();
+           }
+        }
 
 
     }    

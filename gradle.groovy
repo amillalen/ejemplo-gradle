@@ -3,4 +3,9 @@ def build_test(){
   sh "gradle build"
 }
 
+def run(){
+  echo 'run...'
+  sh "nohup gradle bootRun > /tmp/mscovid.log 2>&1 &" 
+}
+
 return this
