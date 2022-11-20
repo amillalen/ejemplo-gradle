@@ -60,6 +60,24 @@ pipeline {
            }
         }
 
+        stage('wait serivice start') {
+           steps{
+           timeout(5) {
+             waitUntil {
+               script {
+                 def exitCode = sh script:"grep -s Started /tmp/mscovid.log", returnStatus:true
+                 return (exitCode == 0);
+               }
+             }
+          }
+          }
+        }
+        stage('test api rest') {
+           steps{
+               echo 'test...'
+               sh "curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+          }
+        } 
 
     }    
 }
