@@ -1,7 +1,6 @@
 def build_test(){
-//   stage('gradle build & test'){
-     echo "gradle here!"
-//   }
+  echo ' gradle build & test...'
+  sh "gradle build"
 }
 
 return this

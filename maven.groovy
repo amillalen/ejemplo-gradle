@@ -1,7 +1,6 @@
 def build_test(){
-//   stage('maven build & test'){
-     echo "maven here!"
-//   }
+  echo 'maven build & test...'
+  sh "./mvnw clean package -e" 
 }
 
 return this
