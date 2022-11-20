@@ -41,18 +41,20 @@ pipeline {
             }
           }
         }
-/*
-        stage('build & test') {
-            steps {
-                echo 'build & test...'
-                script{
 
-                  build_tool["maven"].build_test()
-                  build_tool["gradle"].build_test()
-                  //sh "gradle build"
+        stage('sonar') {
+            steps {
+                echo 'sonar...'
+                script{
+                def scannerHome = tool 'local-sonar';
+                withSonarQubeEnv(credentialsId:'sonartoken',installationName:'local-sonar') {
+                   sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build"
+                }
                 }
             }
         }
-        */
+
+
+
     }    
 }
