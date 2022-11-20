@@ -6,6 +6,9 @@ pipeline {
         gradle '7.6-rc3'
         
     }
+    parameters {
+        choice(name: 'Build_Tool', choices : ['maven','gradle'], description : 'Build tool for this pipeline')
+    }
     stages {
         stage('Load script') {
            steps{
@@ -18,7 +21,7 @@ pipeline {
         stage('build & test') {
           steps{
             script {
-              build_tool["maven"].build_test()
+              build_tool[params.Build_Tool].build_test()
             }
           }
         }
