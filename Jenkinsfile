@@ -1,4 +1,4 @@
-def build_tool = [:]
+def build_tool 
 pipeline {
     agent any
     tools {
@@ -13,8 +13,7 @@ pipeline {
         stage('Load script') {
            steps{
               script {
-                build_tool["maven"] = load "maven.groovy"
-                build_tool["gradle"] = load "gradle.groovy"
+                build_tool = load "${params.Build_Tool}.groovy"
               }
            }
         }
@@ -26,7 +25,7 @@ pipeline {
           }
           steps{
             script {
-              build_tool[params.Build_Tool].build_test()
+              build_tool.build_test()
             }
           }
         }
@@ -38,7 +37,7 @@ pipeline {
           }
           steps{
             script {
-              build_tool[params.Build_Tool].build_test()
+              build_tool.build_test()
             }
           }
         }
