@@ -22,7 +22,7 @@ pipeline {
               }
            }
         }
-        stage("gradle build & test tool") {
+        stage("gradle build & test") {
           when {
             expression {
                   params.Build_Tool == "gradle"
@@ -34,7 +34,7 @@ pipeline {
             }
           }
         }
-        stage("maven build & test tool") {
+        stage("maven build & test") {
           when {
             expression {
                   params.Build_Tool == "maven"
