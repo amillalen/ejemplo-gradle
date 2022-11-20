@@ -9,8 +9,10 @@ pipeline {
     stages {
         stage('Load script') {
            steps{
-              build_tool["maven"] = load "maven.groovy"
-              build_tool["gradle"] = load "gradle.groovy"
+              script {
+                build_tool["maven"] = load "maven.groovy"
+                build_tool["gradle"] = load "gradle.groovy"
+              }
            }
         }
         stage('build & test') {
