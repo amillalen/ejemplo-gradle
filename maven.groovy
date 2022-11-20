@@ -1,5 +1,7 @@
 def build_test(){
-   echo "maven here!"
+   stage('maven build & test'){
+     echo "maven here!"
+   }
 }
 
 return this
