@@ -21,7 +21,7 @@ pipeline {
         stage("gradle build & test tool") {
           when {
             expression {
-                  param.Build_Tool == "gradle"
+                  params.Build_Tool == "gradle"
             }
           }
           steps{
@@ -33,7 +33,7 @@ pipeline {
         stage("maven build & test tool") {
           when {
             expression {
-                  param.Build_Tool == "maven"
+                  params.Build_Tool == "maven"
             }
           }
           steps{
