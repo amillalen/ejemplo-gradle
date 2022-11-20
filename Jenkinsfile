@@ -15,6 +15,10 @@ pipeline {
               }
            }
         }
+        script {
+           build_tool["maven"].build_test()
+        }
+/*
         stage('build & test') {
             steps {
                 echo 'build & test...'
@@ -26,6 +30,6 @@ pipeline {
                 }
             }
         }
-        
+        */
     }    
 }
