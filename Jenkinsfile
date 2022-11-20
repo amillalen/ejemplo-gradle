@@ -15,7 +15,7 @@ pipeline {
               }
            }
         }
-        stage {
+        stage() {
           steps{
             script {
               build_tool["maven"].build_test()
