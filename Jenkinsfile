@@ -59,7 +59,26 @@ pipeline {
             }
         }
         
+        stage("maven run"){
+           when {
+             expression {
+                  params.Build_Tool == "maven"
+             }
+           }
+           steps{
+             script{
+               build_tool.run_app();
+             }
+           }
+        }
+
+
         stage("gradle run"){
+           when {
+             expression {
+                  params.Build_Tool == "gradle"
+             }
+           }
            steps{
              script{
                build_tool.run_app();
