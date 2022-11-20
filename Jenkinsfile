@@ -18,7 +18,24 @@ pipeline {
               }
            }
         }
-        stage("select build & test tool") {
+        stage("gradle build & test tool") {
+          when {
+            expression {
+                  param.Build_Tool == "gradle"
+            }
+          }
+          steps{
+            script {
+              build_tool[params.Build_Tool].build_test()
+            }
+          }
+        }
+        stage("maven build & test tool") {
+          when {
+            expression {
+                  param.Build_Tool == "maven"
+            }
+          }
           steps{
             script {
               build_tool[params.Build_Tool].build_test()
