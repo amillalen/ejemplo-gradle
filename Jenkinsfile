@@ -18,7 +18,7 @@ pipeline {
                 script{
                 def scannerHome = tool 'local-sonar';
                 withSonarQubeEnv(credentialsId:'sonartoken',installationName:'local-sonar') {
-                   sh "${scannerHome}/bin/sonar-scanner"
+                   sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build"
                 }
                 }
             }
