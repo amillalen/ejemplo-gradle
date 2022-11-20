@@ -18,7 +18,7 @@ pipeline {
               }
            }
         }
-        stage("${params.Build_Tool}"+"build & test") {
+        stage("select build & test tool") {
           steps{
             script {
               build_tool[params.Build_Tool].build_test()
