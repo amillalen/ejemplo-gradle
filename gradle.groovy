@@ -3,7 +3,7 @@ def build_test(){
   sh "gradle build"
 }
 
-def run(){
+def run_app(){
   echo 'run...'
   sh "nohup gradle bootRun > /tmp/mscovid.log 2>&1 &" 
 }
