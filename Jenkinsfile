@@ -56,7 +56,9 @@ pipeline {
         
         stage("gradle run"){
            steps{
-              build_tool.run();
+             script{
+               build_tool.run();
+             }
            }
         }
 
