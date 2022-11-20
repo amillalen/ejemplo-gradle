@@ -1,3 +1,4 @@
+def build_tool
 pipeline {
     agent any
     tools {
@@ -6,64 +7,22 @@ pipeline {
         
     }
     stages {
+        stage('Load script') {
+           steps{
+              build_tool['maven'] = load "maven.groovy"
+              build_tool['gradle'] = load "gradle.groovy"
+           }
+        }
         stage('build & test') {
             steps {
                 echo 'build & test...'
-                sh "gradle build"
-            }
-        }
-        stage('sonar') {
-            steps {
-                echo 'sonar...'
                 script{
-                def scannerHome = tool 'local-sonar';
-                withSonarQubeEnv(credentialsId:'sonartoken',installationName:'local-sonar') {
-                   sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build"
-                }
+
+                  build_tool['maven'].build_test()
+                  build_tool['gradle'].build_test()
+                  //sh "gradle build"
                 }
             }
-        }
-        stage('run') {
-            steps {
-                echo 'run...'
-                sh "nohup gradle bootRun > /tmp/mscovid.log 2>&1 &"            
-            }
-        }
-        stage('wait serivice start') {
-           steps{
-           timeout(5) {
-             waitUntil {
-               script {
-                 def exitCode = sh script:"grep -s Started /tmp/mscovid.log", returnStatus:true
-                 return (exitCode == 0);
-               }
-             }
-          }
-          }
-        }
-        stage('test api rest') {
-           steps{
-               echo 'test...'
-               sh "curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
-          }
-        } 
-        stage('nexus') {
-           steps{
-            echo 'nexus...'
-            step(
-             [$class: 'NexusPublisherBuildStep',
-                 nexusInstanceId: 'nexus01',
-                 nexusRepositoryId: 'devops-usach-nexus',
-                 packages: [[$class: 'MavenPackage',
-                       mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '0.0.1'],
-                       mavenAssetList: [
-                          [classifier: '', extension: 'jar', filePath: "${WORKSPACE}/build/libs/DevOpsUsach2020-0.0.1.jar"]
-                       ] 
-                   ]
-                 ]
-               ]
-             )
-           }
         }
         
     }    
