@@ -125,6 +125,12 @@ pipeline {
            }
         }
 
+        stage('Paso Notificación Slack') {
+            steps {
+                echo 'Notificando por Slack...'
+                slackSend channel: 'C044QF4MH4N', message: "Build Success: [Nombre Alumno][${JOB_NAME}][${params.Build_Tool}] Ejecución exitosa."
+            }
+        }
 
 
 
