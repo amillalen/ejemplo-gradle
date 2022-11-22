@@ -134,5 +134,17 @@ pipeline {
 
 
 
-    }    
+    }   
+
+    post {
+        failure {
+            steps {
+                echo 'Notificando de falla por Slack...'
+                slackSend channel: 'C044QF4MH4N', message: "Build Failure: [Nombre Alumno][${JOB_NAME}][${params.Build_Tool}] Ejecución exitosa."
+            }
+        }
+    }
+
+
+ 
 }
