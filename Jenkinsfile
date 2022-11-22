@@ -2,6 +2,8 @@ def build_tool
 
 def output_dir =[:]
 
+def last_stage
+
 pipeline {
     agent any
     tools {
@@ -30,6 +32,7 @@ pipeline {
           }
           steps{
             script {
+              last_stage = env.STAGE_NAME
               build_tool.build_test()
             }
           }
@@ -42,6 +45,7 @@ pipeline {
           }
           steps{
             script {
+              last_stage = env.STAGE_NAME
               build_tool.build_test()
             }
           }
@@ -51,6 +55,7 @@ pipeline {
             steps {
                 echo 'sonar...'
                 script{
+                last_stage = env.STAGE_NAME
                 def scannerHome = tool 'local-sonar';
                 withSonarQubeEnv(credentialsId:'sonartoken',installationName:'local-sonar') {
                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build"
@@ -67,6 +72,7 @@ pipeline {
            }
            steps{
              script{
+               last_stage = env.STAGE_NAME
                build_tool.run_app();
              }
            }
@@ -81,6 +87,7 @@ pipeline {
            }
            steps{
              script{
+               last_stage = env.STAGE_NAME
                build_tool.run_app();
              }
            }
@@ -100,6 +107,7 @@ pipeline {
         }
         stage('test api rest') {
            steps{
+               script { last_stage = env.STAGE_NAME  }
                echo 'test...'
                sh "curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
           }
@@ -108,6 +116,7 @@ pipeline {
 
         stage('nexus') {
            steps{
+            script{ last_stage = env.STAGE_NAME }
             echo 'nexus...'
             step(
              [$class: 'NexusPublisherBuildStep',
@@ -140,7 +149,7 @@ pipeline {
         failure {
             steps {
                 echo 'Notificando de falla por Slack...'
-                slackSend channel: 'C044QF4MH4N', message: "Build Failure: [Nombre Alumno][${JOB_NAME}][${params.Build_Tool}] Ejecución exitosa."
+                slackSend channel: 'C044QF4MH4N', message: "Build Failure: [Nombre Alumno][${JOB_NAME}][${params.Build_Tool}] Ejecución fallida en stage[${last_stage}]."
             }
         }
     }
